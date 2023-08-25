@@ -8,7 +8,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { MediasModule } from './medias/medias.module';
 
 @Module({
-    imports: [PostsModule, PublicationsModule, PrismaModule, MediasModule],
+    imports: [PostsModule, PublicationsModule, MediasModule, PrismaModule],
     controllers: [AppController],
     providers: [AppService, PrismaService],
 })
