@@ -14,11 +14,11 @@ export class MediasService {
         if(!media) throw notFoundError("this media doens't exists.");
         return media
     }
-    deleteMedia() {
-        throw new Error('Method not implemented.');
+    async deleteMedia(mediaId: string) {
+        const media = await this.MediasRepository.findById(Number(mediaId))
+        if(!media) throw notFoundError("this media doens't exists.");
     }
-    updateMedia() {
-        throw new Error('Method not implemented.');
+    updateMedia(id: string) {
     }
     async createMedia(title: string, username: string) {
         const medias: Media[] = await this.MediasRepository.findMany()

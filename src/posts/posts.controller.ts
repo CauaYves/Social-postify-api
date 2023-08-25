@@ -1,6 +1,7 @@
-import { Controller, Delete, Res, Get, Post, Put } from '@nestjs/common';
+import { Controller, Delete, Res, Get, Post, Put, Body, ValidationPipe } from '@nestjs/common';
 import { Response } from 'express';
 import { PostsService } from './posts.service';
+import { postDto } from './dtos/post.dto';
 @Controller('posts')
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
@@ -14,11 +15,23 @@ export class PostsController {
     const result = this.postsService.getPost();
     return res.status(200).send(result);
   }
+
+
+
+
+
   @Post()
-  createPost(@Res() res: Response) {
-    const result = this.postsService.createPost();
+  createPost(@Body(new ValidationPipe()) Post: postDto, @Res() res: Response) {
+    const result = this.postsService.createPost(Post);
     return res.status(201).send(result);
   }
+
+
+
+
+
+
+
   @Put(':id')
   updatePost(@Res() res: Response) {
     const result = this.postsService.updatePost();

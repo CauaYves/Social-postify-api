@@ -7,12 +7,12 @@ import { Media } from '@prisma/client';
 @Controller('/medias')
 export class MediasController {
   constructor(private readonly mediasService: MediasService) {}
-  @Get()
+  @Get()//COMPLETED
   async getMedias(@Res() res: Response) {
     const result: Media[] = await this.mediasService.getMedias();
     return res.status(HttpStatus.OK).send(result);
   }
-  @Get(':id')
+  @Get(':id')//COMPLETED
   async getMedia(@Param()mediaId: {id: string},@Res() res: Response) {
     try{
       const result = await this.mediasService.getMedia(mediaId.id);
@@ -21,7 +21,7 @@ export class MediasController {
       if(error.name === 'notFoundError') return res.status(HttpStatus.NOT_FOUND).send(error.message)
     }
   }
-  @Post()
+  @Post()//COMPLETED
   async createMedia(@Body(new ValidationPipe()) createMediaDto: createMediaDto, @Res() res: Response) {
     try{
       const result = await this.mediasService.createMedia(createMediaDto.title, createMediaDto.username);
@@ -30,14 +30,18 @@ export class MediasController {
       if(error.name === 'conflictError') return res.status(HttpStatus.CONFLICT).send(error.message)
     }
   }
-  @Put(':id')
-  updateMedia(@Res() res: Response) {
-    const result = this.mediasService.updateMedia();
-    return res.status(HttpStatus.OK).send(result);
+  @Put(':id') //FIXME
+  updateMedia(@Param()mediaId: {id: string}, @Res() res: Response) {
+    try{
+      const result = this.mediasService.updateMedia(mediaId.id);
+      return res.status(HttpStatus.OK).send(result);
+    }catch(error){
+      if(error.name === 'notFoundError') return res.status(HttpStatus.NOT_FOUND).send(error.message)
+    }
   }
-  @Delete(':id')
-  deleteMedia(@Res() res: Response) {
-    const result = this.mediasService.deleteMedia();
+  @Delete(':id') //FIXME
+  deleteMedia(@Param()mediaId: {id: string}, @Res() res: Response) {
+    const result = this.mediasService.deleteMedia(mediaId.id);
     return res.status(HttpStatus.OK).send(result);
   }
 }
