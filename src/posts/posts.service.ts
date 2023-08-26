@@ -1,11 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { PostsRepository } from './posts.repository';
+import { notFoundError } from 'src/errors/not-found-error';
 
 @Injectable()
 export class PostsService {
     constructor (private readonly repository: PostsRepository) {}
-    deletePost() {
-        throw new Error('Method not implemented.');
+    async deletePost(id: number) {//FIXME O post só pode ser deletado se não estiver fazendo parte de nenhuma publicação (agendada ou publicada). Neste caso, retornar o status code 403 Forbidden.
+        const postExists = await this.repository.findUnique(id)
+        if(!postExists) throw notFoundError("this post does not exist")
+        return await this.repository.delete(id)
     }
     updatePost() {
         throw new Error('Method not implemented.');
@@ -13,10 +16,10 @@ export class PostsService {
     async createPost(post) {
         return await this.repository.create(post)
     }
-    getPost() {
-        throw new Error('Method not implemented.');
+    async getPost(id: number) {
+        return await this.repository.findUnique(id)
     }
-    getPosts() {
-        throw new Error('Method not implemented.');
+    async getPosts() {
+        return await this.repository.find()
     }
 }
