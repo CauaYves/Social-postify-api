@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { publicationDto } from './dtos/publication.dto';
 
 @Injectable()
 export class PublicationsService {
@@ -8,8 +9,8 @@ export class PublicationsService {
     updatePublication() {
         throw new Error('Method not implemented.');
     }
-    createPublication() {
-        throw new Error('Method not implemented.');
+    createPublication(publication: publicationDto) {
+        
     }
     getPublication() {
         throw new Error('Method not implemented.');

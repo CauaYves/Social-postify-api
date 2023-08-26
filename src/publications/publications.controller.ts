@@ -1,6 +1,7 @@
-import { Controller, Delete, Res, Get, Post, Put } from '@nestjs/common';
+import { Controller, Delete, Res, Get, Post, Put, ValidationPipe, Body } from '@nestjs/common';
 import { Response } from 'express';
 import { PublicationsService } from './publications.service';
+import { publicationDto } from './dtos/publication.dto';
 
 @Controller('publications')
 export class PublicationsController {
@@ -16,8 +17,8 @@ export class PublicationsController {
     return res.status(200).send(result);
   }
   @Post()
-  createPublication(@Res() res: Response) {
-    const result = this.publicationsService.createPublication();
+  createPublication(@Body(new ValidationPipe()) publication: publicationDto, @Res() res: Response) {
+    const result = this.publicationsService.createPublication(publication);
     return res.status(201).send(result);
   }
   @Put(':id')
