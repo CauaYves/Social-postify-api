@@ -32,4 +32,5 @@ model Publication {
   Media Media @relation(fields: [mediaId], references: [id])
   postId Int @unique
   Post Post @relation(fields: [postId], references: [id])
+  date DateTime
 }
