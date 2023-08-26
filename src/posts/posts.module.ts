@@ -5,6 +5,7 @@ import { PostsController } from './posts.controller';
 
 @Module({
   controllers: [PostsController],
-  providers: [PostsService, PostsRepository]
+  providers: [PostsService, PostsRepository],
+  exports: [PostsService]
 })
 export class PostsModule {}

@@ -17,7 +17,9 @@ export class PostsService {
         return await this.repository.create(post)
     }
     async getPost(id: number) {
-        return await this.repository.findUnique(id)
+        const post = await this.repository.findUnique(id)
+        if(!post) throw notFoundError("this post does not exist")
+        return post
     }
     async getPosts() {
         return await this.repository.find()

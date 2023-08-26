@@ -1,4 +1,4 @@
-import { Controller, Delete, Res, Get, Post, Put, ValidationPipe, Body } from '@nestjs/common';
+import { Controller, Delete, Res, Get, Post, Put, ValidationPipe, Body, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
 import { PublicationsService } from './publications.service';
 import { publicationDto } from './dtos/publication.dto';
@@ -17,9 +17,13 @@ export class PublicationsController {
     return res.status(200).send(result);
   }
   @Post()
-  createPublication(@Body(new ValidationPipe()) publication: publicationDto, @Res() res: Response) {
-    const result = this.publicationsService.createPublication(publication);
-    return res.status(201).send(result);
+  async createPublication(@Body(new ValidationPipe()) publication: publicationDto, @Res() res: Response) {
+    try{
+      const result = await this.publicationsService.createPublication(publication);
+      return res.status(201).send(result);
+    }catch(error) {
+      if(error.name === 'notFoundError') return res.sendStatus(HttpStatus.NOT_FOUND).send(error.message)
+    }
   }
   @Put(':id')
   updatePublication(@Res() res: Response) {

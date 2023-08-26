@@ -9,8 +9,8 @@ export class MediasService {
 
     constructor (private MediasRepository: MediasRepository) {}
 
-    async getMedia(mediaId: string) {
-        const media = await this.MediasRepository.findById(Number(mediaId))
+    async getMedia(mediaId: number) {
+        const media = await this.MediasRepository.findById(mediaId)
         if(!media) throw notFoundError("this media doens't exists.");
         return media
     }

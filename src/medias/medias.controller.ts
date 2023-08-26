@@ -15,7 +15,7 @@ export class MediasController {
   @Get(':id')//COMPLETED
   async getMedia(@Param()mediaId: {id: string},@Res() res: Response) {
     try{
-      const result = await this.mediasService.getMedia(mediaId.id);
+      const result = await this.mediasService.getMedia(Number(mediaId.id));
       return res.status(HttpStatus.OK).send(result);
     }catch(error){
       if(error.name === 'notFoundError') return res.status(HttpStatus.NOT_FOUND).send(error.message)
