@@ -8,7 +8,7 @@ export class PublicationsController {
   constructor(private readonly publicationsService: PublicationsService) {}
 
   @Get()
-  async getAllPublicationsController(@Query("published") published: string = null, @Query("after") after: Date = null) {
+  async getAllPublications(@Query("published") published: string = null, @Query("after") after: Date = null) {
       return await this.publicationsService.getAllPublicationsService(published, after);
   }
 
